@@ -9,6 +9,7 @@ fmt:
 bootstrap:
 	go get -u -v  github.com/golang/lint/golint
 	go get -u -v github.com/mitchellh/gox
+	go get -u -v github.com/mitchellh/cli
 
 test: bootstrap
 	go test `go list ./... | grep -v /vendor/`

@@ -64,6 +64,9 @@ func doWork(conf *config.Config, c *consul.Consul, restorePath string) {
 	// if we are running an Acceptance test then we need to restore from local
 	if conf.Acceptance {
 		restore.LocalFilePath = fmt.Sprintf("%v/acceptancetest.tar.gz", conf.TmpDir)
+        } else if (conf.LocalBackupFile != "") {
+            restore.LocalFilePath = fmt.Sprintf("%s/%s", conf.LocalDir, conf.LocalBackupFile)
+            log.Printf("[INFO] Restoring from local backup file: %s\n", restore.LocalFilePath)
 	} else {
 		getRemoteBackup(restore, conf)
 	}
@@ -99,11 +102,15 @@ func doWork(conf *config.Config, c *consul.Consul, restorePath string) {
 		restore.loadACLData()
 	}
 
-	restoreKV(restore, c)
-	restorePQs(restore, c)
-	restoreACLs(restore, c)
+        if (conf.LocalDryRunRestore) {
+            log.Print("[INFO] Skipping restore during dry run.")
+        } else {
+            restoreKV(restore, c)
+            restorePQs(restore, c)
+            restoreACLs(restore, c)
 
-	log.Print("[INFO] Restore completed.")
+            log.Print("[INFO] Restore completed.")
+        }
 
 }
 

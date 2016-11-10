@@ -53,6 +53,9 @@ Configuration is done from environment variables.
 - CONSUL_SNAPSHOT_S3_SSE_KMS_KEY_ID (optional KMS key ID, if
   server-side encryption is used, and `aws:kms` is used for the
   encryption algorithm)
+- LOCAL_DIR (the directory to store the local backup file and skip further remote uploading)
+- LOCAL_BACKUP_FILE (the name of the backup file to restore from; must be inside the LOCAL_DIR)
+- LOCAL_DRY_RUN (do not actually restore the LOCAL_DIR/LOCAL_BACKUP_FILE)
 
 And through the consul api there are several options available (https://github.com/hashicorp/consul/blob/master/api/api.go#L126)
 
